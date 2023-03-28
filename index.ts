@@ -2,10 +2,10 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import { EmployeeRouter } from './router/employee-router';
 import Employee from './model/employee';
 
-const port = process.env['PORT'];
+const port = 5000;
 const app = express();
 const employeeRouter = new EmployeeRouter;
-Employee.sync({alter:true})
+Employee.sync()
 
 app.use((request: Request, response: Response, next: NextFunction) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
