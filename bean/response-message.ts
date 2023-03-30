@@ -12,6 +12,7 @@ export default class ResponseMessage{
 
 export enum ErrorCode {
   noError = 0,
-  bodyError = 1,
-  userExisted = 2
+  bodyError,
+  userNotExisted,
+  passwordNotMatch 
 }

@@ -14,7 +14,9 @@ export class EmployeeRouter {
 
   initializeRoutes() {
     this.router.get('/', employeeControllers.getAllEmployee);
-    this.router.get('/test', employeeControllers.Test);
     this.router.post('/', insertValidator, requestbodyValidator, employeeControllers.insertEmployee);
+    this.router.put('/:id', insertValidator, requestbodyValidator, employeeControllers.updateEmployee);
+    this.router.post('/login', insertValidator, requestbodyValidator, employeeControllers.login);
+    this.router.delete('/:id', employeeControllers.deleteEmployee);
   }
 }
