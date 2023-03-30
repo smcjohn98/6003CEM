@@ -1,11 +1,17 @@
 export default class ResponseMessage{
   message:string;
-  statusCode:number;
+  errorCode:ErrorCode;
   data:any;
   
-  constructor(message:string, statusCode:number, data:any) {
+  constructor(message:string, errorCode:ErrorCode, data:any) {
     this.message = message;
-    this.statusCode = statusCode;
+    this.errorCode = errorCode;
     this.data = data;
   }
+}
+
+export enum ErrorCode {
+  noError = 0,
+  bodyError = 1,
+  userExisted = 2
 }

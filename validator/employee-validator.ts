@@ -1,13 +1,24 @@
-import { check, validationResult } from 'express-validator';
+import { check } from 'express-validator';
 
-const insertValidator = check('username')
-    .trim()
-    .escape()
-    .not()
-    .isEmpty()
-    .withMessage('User name can not be empty!')
-    .bail()
-    .isLength({min: 8})
-    .withMessage('Minimum 8 characters required!');
+const insertValidator = [
+    check('username')
+        .trim()
+        .escape()
+        .not()
+        .isEmpty()
+        .withMessage('Username can not be empty!')
+        .bail()
+        .isLength({min: 8})
+        .withMessage('Minimum 8 characters required!'),
+    check('password')
+        .trim()
+        .escape()
+        .not()
+        .isEmpty()
+        .withMessage('Password can not be empty!')
+        .bail()
+        .isLength({min: 8})
+        .withMessage('Minimum 8 characters required!')
+]
 
-export default insertValidator;
+export  {insertValidator};
