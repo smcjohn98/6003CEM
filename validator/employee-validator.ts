@@ -21,4 +21,4 @@ const insertValidator = [
         .withMessage('Minimum 8 characters required!')
 ]
 
-export  {insertValidator};
+export { insertValidator };

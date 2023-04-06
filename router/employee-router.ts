@@ -1,11 +1,11 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
-import { EmployeeControllers } from '../controller/employee-controller';
+import EmployeeController from '../controller/employee-controller';
 import { insertValidator } from '../validator/employee-validator'
 import requestbodyValidator from '../validator/requestbody-validator'
 
-const employeeControllers = new EmployeeControllers;
+const employeeControllers = new EmployeeController;
 
-export class EmployeeRouter {
+export default class EmployeeRouter {
   router: Router;
   constructor() {
     this.router = express.Router();
