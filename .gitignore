@@ -1,0 +1,9 @@
+node_modules/*
+.build/*
+.cache/*
+.config/*
+.replit
+.gitignore
+.upm/*
+replit*
+build/*
