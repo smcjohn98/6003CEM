@@ -1,6 +1,6 @@
 export const config = {
-  databaseConnectionString: "postgres://npqerxsk:oAThSUBGGem_kHVjiqOmGMYJJo3DS029@satao.db.elephantsql.com/npqerxsk",
-  //databaseConnectionString: "sqlite::memory:",
+  //databaseConnectionString: "postgres://npqerxsk:oAThSUBGGem_kHVjiqOmGMYJJo3DS029@satao.db.elephantsql.com/npqerxsk",
+  databaseConnectionString: "sqlite::memory:",
   jwtKey: "227020426SMC",
   host: "satao.db.elephantsql.com",
   port: 5432,

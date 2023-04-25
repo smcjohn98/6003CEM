@@ -5,8 +5,9 @@ import { Sequelize } from 'sequelize';
 
 export default class PetController {
   async getPets(request: Request, response: Response, next: NextFunction) {
-    let { type, name, ageFrom, ageTo, breed, limit, offset } = request.query;
-
+    let { type, name, ageFrom, ageTo, breed } = request.query;
+    let limit : number = Number(request.query.limit)
+    let offset : number = Number(request.query.offset)
     if(!limit)
       limit = 12
     if(!offset)
@@ -32,9 +33,10 @@ export default class PetController {
       criteria.ageTo = ageToWhere;
     }
     
-    const pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, attributes:{include:[
-      Sequelize.literal('AGE(DOB) as age')
-    ]}});
+    const pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, 
+      //attributes:{include:[[Sequelize.literal('AGE(DOB)'), 'age']]}
+    });
+
     //const pets = await Pet.findAll({ where: criteria });
     response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pets }));
   }

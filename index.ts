@@ -1,13 +1,15 @@
 import express, { Express, Request, Response, NextFunction } from 'express';
-import EmployeeRouter from './router/employee-router';
+import UserRouter from './router/user-router';
 import PetRouter from './router/pet-router';
+import WatchlistRouter from './router/watchlist-router';
 import { dataInit } from './helper/database';
 import cors from 'cors'
 
 const port = 5000;
 const app = express();
-const employeeRouter = new EmployeeRouter;
+const userRouter = new UserRouter;
 const petRouter = new PetRouter;
+const watchlistRouter = new WatchlistRouter;
 dataInit()
 /*app.use((request: Request, response: Response, next: NextFunction) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
@@ -23,8 +25,9 @@ dataInit()
 
 app.use(cors())
 app.use(express.json());
-app.use('/employee', employeeRouter.router)
+app.use('/user', userRouter.router)
 app.use('/pet', petRouter.router)
+app.use('/watchlist', watchlistRouter.router)
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
 

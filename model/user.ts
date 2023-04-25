@@ -4,9 +4,13 @@ import { config } from '../config';
 const sequelize = new Sequelize(`${config.databaseConnectionString}`);
 
 
-const Pet = sequelize.define('pet', {
+const User = sequelize.define('user', {
   // Model attributes are defined here
-  type: {
+  username: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
+  password: {
     type: DataTypes.STRING,
     allowNull: false
   },
@@ -14,27 +18,15 @@ const Pet = sequelize.define('pet', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  breed: {
+  role:{
     type: DataTypes.STRING,
     allowNull: false
   },
-  dob: {
-    type: DataTypes.DATE,
-    allowNull: false
-  },
-  thumbnail:{
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  gallery:{
-    type: DataTypes.STRING,
-    allowNull: true
-  },
-  create_by:{
+  signup_code:{
     type: DataTypes.NUMBER,
     allowNull: true
   }
 }, {
   // Other model options go here
 });
-export default Pet;
+export default User;
