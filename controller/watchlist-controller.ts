@@ -11,16 +11,16 @@ export default class WatchlistController {
   }
 
   async insert(request: Request, response: Response, next: NextFunction) {
-    const { user_id, pet_id } = request.body;
+    const { userId, petId } = request.body;
 
     // Check Existed
-    const e = await Watchlist.findOne({ where: { user_id: user_id, pet_id: pet_id } });
+    const e = await Watchlist.findOne({ where: { user_id: userId, pet_id: petId } });
     if (e !== null) {
       return response.status(404).json(new ResponseMessage("Watchlist Item Is Existed", ErrorCode.resourceIsExisted, {}));
     }
  
     // Create User
-    const a = await Watchlist.create({ user_id: user_id, pet_id: pet_id })
+    const a = await Watchlist.create({ user_id: userId, pet_id: petId })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }

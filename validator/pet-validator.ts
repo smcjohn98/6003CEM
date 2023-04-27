@@ -25,6 +25,10 @@ const petValidator = [
     .not()
     .isEmpty()
     .withMessage('Dob can not be empty!')
+    .bail()
+    .isISO8601()
+    .withMessage('Dob wrong format!')
+    
 ]
 
 export { petValidator };

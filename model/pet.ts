@@ -19,7 +19,7 @@ const Pet = sequelize.define('pet', {
     allowNull: false
   },
   dob: {
-    type: DataTypes.DATE,
+    type: DataTypes.DATEONLY,
     allowNull: false
   },
   thumbnail:{

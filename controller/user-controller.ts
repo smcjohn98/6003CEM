@@ -5,15 +5,15 @@ import Bcrypt from 'bcrypt'
 import { config } from '../config'
 import JWT from 'jsonwebtoken';
 
-export default class EmployeeController {
-  async getAllEmployee(request: Request, response: Response, next: NextFunction) {
-    //Get All Employee
-    let employees = await User.findAll();
+export default class UserController {
+  async getAll(request: Request, response: Response, next: NextFunction) {
+    //Get All
+    let list = await User.findAll();
 
-    response.send(new ResponseMessage("OK", ErrorCode.noError, { employees: employees }));
+    response.send(new ResponseMessage("OK", ErrorCode.noError, { users: list }));
   }
 
-  async insertEmployee(request: Request, response: Response, next: NextFunction) {
+  async insert(request: Request, response: Response, next: NextFunction) {
     const { username, password } = request.body;
 
     // Check Username Existed
@@ -29,7 +29,7 @@ export default class EmployeeController {
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 
-  async updateEmployee(request: Request, response: Response, next: NextFunction) {
+  async update(request: Request, response: Response, next: NextFunction) {
     const { username, password } = request.body;
 
     // Check Username Existed
@@ -45,7 +45,7 @@ export default class EmployeeController {
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 
-  async deleteEmployee(request: Request, response: Response, next: NextFunction) {
+  async delete(request: Request, response: Response, next: NextFunction) {
 
     // Check User Existed
     const user = await User.findByPk(request.params.id);

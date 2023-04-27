@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import UserRouter from './router/user-router';
 import PetRouter from './router/pet-router';
 import WatchlistRouter from './router/watchlist-router';
+import SignupCodeRouter from './router/signup-code-router';
 import { dataInit } from './helper/database';
 import cors from 'cors'
 
@@ -10,6 +11,7 @@ const app = express();
 const userRouter = new UserRouter;
 const petRouter = new PetRouter;
 const watchlistRouter = new WatchlistRouter;
+const signupCodeRouter = new SignupCodeRouter;
 dataInit()
 /*app.use((request: Request, response: Response, next: NextFunction) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
@@ -28,6 +30,7 @@ app.use(express.json());
 app.use('/user', userRouter.router)
 app.use('/pet', petRouter.router)
 app.use('/watchlist', watchlistRouter.router)
+app.use('/signup-code', signupCodeRouter.router)
 
 app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
 

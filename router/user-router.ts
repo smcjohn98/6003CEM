@@ -13,10 +13,10 @@ export default class UserRouter {
   }
 
   initializeRoutes() {
-    this.router.get('/', userControllers.getAllEmployee);
-    this.router.post('/', insertValidator, requestbodyValidator, userControllers.insertEmployee);
-    this.router.put('/:id', insertValidator, requestbodyValidator, userControllers.updateEmployee);
+    this.router.get('/', userControllers.getAll);
+    this.router.post('/', insertValidator, requestbodyValidator, userControllers.insert);
+    this.router.put('/:id', insertValidator, requestbodyValidator, userControllers.update);
     this.router.post('/login', insertValidator, requestbodyValidator, userControllers.login);
-    this.router.delete('/:id', userControllers.deleteEmployee);
+    this.router.delete('/:id', userControllers.delete);
   }
 }
