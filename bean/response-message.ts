@@ -15,5 +15,6 @@ export enum ErrorCode {
   bodyBadRequest,
   resourceNotFound,
   resourceIsExisted,
-  passwordNotMatch
+  passwordNotMatch,
+  forBidden
 }

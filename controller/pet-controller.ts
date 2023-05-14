@@ -33,7 +33,7 @@ export default class PetController {
       criteria.ageTo = ageToWhere;
     }
     
-    const pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, 
+    const pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]]
       //attributes:{include:[[Sequelize.literal('AGE(DOB)'), 'age']]}
     });
 
@@ -44,13 +44,19 @@ export default class PetController {
   async insertPet(request: Request, response: Response, next: NextFunction) {
     const { type, name, dob, breed } = request.body;
 
-    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed })
+    const file = request.file;
+    console.log(file);
+
+    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed, thumbnail: file?.filename })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 
   async updatePet(request: Request, response: Response, next: NextFunction) {
     const { type, name, dob, breed } = request.body;
+
+    const file = request.file;
+    console.log(file);
 
     // Check Username Existed
     const pet = await Pet.findByPk(request.params.id);
@@ -63,6 +69,8 @@ export default class PetController {
     pet.setDataValue("name", name)
     pet.setDataValue("dob", dob)
     pet.setDataValue("breed", breed)
+    if(file)
+      pet.setDataValue('thumbnail', file?.filename)
 
     pet.save();
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));

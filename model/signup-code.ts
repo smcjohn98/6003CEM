@@ -16,7 +16,7 @@ const SignupCode = sequelize.define('signup_code', {
   },
   create_by:{
     type: DataTypes.NUMBER,
-    allowNull: false
+    allowNull: true
   }
 }, {
   // Other model options go here

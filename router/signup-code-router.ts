@@ -14,7 +14,7 @@ export default class SignupCodeRouter {
 
   initializeRoutes() {
     this.router.get('/', signupCodeControllers.getAll);
-    this.router.post('/', insertValidator, requestbodyValidator, signupCodeControllers.insert);
+    this.router.post('/', signupCodeControllers.insert);
     this.router.delete('/:id', signupCodeControllers.delete);
   }
 }

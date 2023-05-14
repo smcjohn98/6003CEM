@@ -15,7 +15,7 @@ const dataInit = async () => {
 
   if (!await User.findOne({ where: { username: "test_admin" } })) {
     const adminPassword = Bcrypt.hashSync("P@ssw0rd", 10);
-    User.create({ username: "test_admin", password: adminPassword, name: 'Admin User', role: UserRole.Admin })
+    User.create({ username: "admin@gmail.com", password: adminPassword, name: 'Admin User', role: UserRole.Admin })
   }
   if (!await Pet.findOne({ where: { name: "Peanut" } })) {
     Pet.create({ type: "cat", name: "Peanut", dob: "2021-12-15", breed: "DSH" })
