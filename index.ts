@@ -5,6 +5,8 @@ import WatchlistRouter from './router/watchlist-router';
 import SignupCodeRouter from './router/signup-code-router';
 import ImageRouter from './router/image-router';
 import { dataInit } from './helper/database';
+import { config } from './config';
+const Twitter = require('twitter');
 
 import cors from 'cors'
 
@@ -16,7 +18,7 @@ const watchlistRouter = new WatchlistRouter;
 const signupCodeRouter = new SignupCodeRouter;
 const imageRouter = new ImageRouter;
 
-dataInit()
+dataInit();
 /*app.use((request: Request, response: Response, next: NextFunction) => {
   response.setHeader("Access-Control-Allow-Origin", "*");
   response.setHeader(
@@ -57,6 +59,24 @@ app.post('/api/images', upload.single('image'), (req, res) => {
   res.json({ message: 'File uploaded successfully' });
 });
 */
+
+const client = new Twitter({
+  consumer_key: config.twitterApiKey,
+  consumer_secret: config.twitterApiSecret,
+  access_token_key: config.twitterAccessToken,
+  access_token_secret: config.twitterAccessTokenSecret
+});
+
+// Define a route that fetches the latest tweets from a user
+app.post('/tweet', async (req, res) => {
+  try {
+    const tweet = req.body.tweet;
+    const result = await client.post('statuses/update', { status: "Hello World" });
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
 
 app.use((request: Request, response: Response) => {
   const responseMsg = { message: 'API not found' };

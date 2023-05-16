@@ -14,7 +14,7 @@ export default class WatchlistRouter {
 
   initializeRoutes() {
     this.router.get('/', watchlistControllers.getAll);
-    this.router.post('/', insertValidator, requestbodyValidator, watchlistControllers.insert);
+    this.router.post('/', watchlistControllers.insert);
     this.router.delete('/:id', watchlistControllers.delete);
   }
 }

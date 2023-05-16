@@ -1,9 +1,12 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { config } from '../config';
 
-const sequelize = new Sequelize(`${config.databaseConnectionString}`);
-
-
+const sequelize = new Sequelize('pet', 'root', '', {
+  dialect: 'mysql',
+  dialectOptions: {
+    // Your mysql2 options here
+  }
+})
 const User = sequelize.define('user', {
   // Model attributes are defined here
   username: {
@@ -23,7 +26,7 @@ const User = sequelize.define('user', {
     allowNull: false
   },
   signup_code:{
-    type: DataTypes.NUMBER,
+    type: DataTypes.STRING,
     allowNull: true
   }
 }, {

@@ -1,8 +1,12 @@
 import { Sequelize, Model, DataTypes } from 'sequelize';
 import { config } from '../config';
 
-const sequelize = new Sequelize(`${config.databaseConnectionString}`);
-
+const sequelize = new Sequelize('pet', 'root', '', {
+  dialect: 'mysql',
+  dialectOptions: {
+    // Your mysql2 options here
+  }
+})
 
 const Pet = sequelize.define('pet', {
   // Model attributes are defined here
@@ -18,6 +22,10 @@ const Pet = sequelize.define('pet', {
     type: DataTypes.STRING,
     allowNull: false
   },
+  sex: {
+    type: DataTypes.STRING,
+    allowNull: false
+  },
   dob: {
     type: DataTypes.DATEONLY,
     allowNull: false
@@ -28,10 +36,6 @@ const Pet = sequelize.define('pet', {
   },
   gallery:{
     type: DataTypes.STRING,
-    allowNull: true
-  },
-  create_by:{
-    type: DataTypes.NUMBER,
     allowNull: true
   }
 }, {
