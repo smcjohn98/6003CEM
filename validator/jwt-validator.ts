@@ -4,9 +4,19 @@ import ResponseMessage, { ErrorCode } from '../bean/response-message';
 import JWT from 'jsonwebtoken';
 import { config } from '../config'
 
-export default function verifyToken(request:AuthenticatedRequest, response:Response, next:NextFunction) {
+const verifyTokenMiddleware = (required: boolean) => {
+  return (request:AuthenticatedRequest, response:Response, next:NextFunction) => 
+    verifyToken(request, response, next, required);
+}
+
+function verifyToken(request:AuthenticatedRequest, response:Response, next:NextFunction, required: boolean) {
   const authorizationHeader = request.headers.authorization;
-  
+
+  if(!authorizationHeader && !required){
+    next();
+    return;
+  }
+
   if(!authorizationHeader){
     return response.status(401).json(new ResponseMessage("Authorization Header Is Required", ErrorCode.forBidden, {}));
   }
@@ -30,3 +40,5 @@ export default function verifyToken(request:AuthenticatedRequest, response:Respo
     next();
   });
 }
+
+export default verifyTokenMiddleware;

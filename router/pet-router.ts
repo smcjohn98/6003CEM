@@ -2,6 +2,8 @@ import express, { Router, Request, Response, NextFunction } from 'express';
 import PetController from '../controller/pet-controller';
 import { petValidator } from '../validator/pet-validator'
 import requestbodyValidator from '../validator/requestbody-validator'
+import verifyTokenMiddleware from '../validator/jwt-validator';
+import verifyPermissionMiddleware from '../validator/permission-validator';
 
 const multer = require('multer');
 const upload = multer({ dest: 'images/' });
@@ -15,10 +17,11 @@ export default class PetRouter {
     this.initializeRoutes();
   }
 
-  initializeRoutes() {
-    this.router.get('/', petControllers.getPets);
-    this.router.post('/', upload.single('image'), petValidator, requestbodyValidator, petControllers.insertPet);
-    this.router.put('/:id', upload.single('image'), petValidator, requestbodyValidator, petControllers.updatePet);
-    this.router.delete('/:id', petControllers.deletePet);
+  initializeRoutes() { 
+    this.router.get('/', verifyTokenMiddleware(false), petControllers.getPets);
+    this.router.get('/:id', verifyTokenMiddleware(false) , petControllers.getPet);
+    this.router.post('/', verifyTokenMiddleware(true), verifyPermissionMiddleware(["charity", "admin"]), upload.single('image'), petValidator, requestbodyValidator, petControllers.insertPet);
+    this.router.put('/:id', verifyTokenMiddleware(true), verifyPermissionMiddleware(["charity", "admin"]), upload.single('image'), petValidator, requestbodyValidator, petControllers.updatePet);
+    this.router.delete('/:id', verifyTokenMiddleware(true), verifyPermissionMiddleware(["charity", "admin"]), petControllers.deletePet); 
   }
 }

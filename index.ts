@@ -39,6 +39,12 @@ app.use('/api/watchlist', watchlistRouter.router)
 app.use('/api/signup-code', signupCodeRouter.router)
 app.use('/images', imageRouter.router)
 
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json') // 剛剛輸出的 JSON
+
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+
+
 //app.use('/images', express.static('images'))
 /*app.get('/images/:imageName', (req, res) => {
   // do a bunch of if statements to make sure the user is 

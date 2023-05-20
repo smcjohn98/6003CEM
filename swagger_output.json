@@ -1,0 +1,560 @@
+{
+	"swagger": "2.0",
+	"info": {
+		"title": "Pet API",
+		"version": "1.0.0"
+	},
+	"host": "localhost:5000",
+	"basePath": "/api",
+	"schemes": [
+		"http"
+	],
+	"consumes": [
+		"application/json",
+		"multipart/form-data"
+	],
+	"produces": [
+		"application/json"
+	],
+	"tags": [
+		{
+			"name": "Pet",
+			"description": "Pet CRUD operation"
+		},
+		{
+			"name": "Watchlist",
+			"description": "Watchlist CRUD operation"
+		},
+		{
+			"name": "User",
+			"description": "User CRUD operation"
+		},
+		{
+			"name": "Signup Code",
+			"description": "Signup Code CRUD operation"
+		}
+	],
+	"paths": {
+		"/pet": {
+			"get": {
+				"tags": [
+					"Pet"
+				],
+				"summary": "Get pets by name, breed, and sex",
+				"parameters": [
+					{
+						"name": "name",
+						"in": "query",
+						"description": "The name of the pet",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "breed",
+						"in": "query",
+						"description": "The breed of the pet",
+						"required": false,
+						"type": "string"
+					},
+					{
+						"name": "sex",
+						"in": "query",
+						"description": "The sex of the pet",
+						"required": false,
+						"type": "string",
+						"enum": [
+							"F",
+							"M"
+						]
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			},
+			"post": {
+				"tags": [
+					"Pet"
+				],
+				"summary": "Create a new pet",
+				"consumes": [
+					"multipart/form-data"
+				],
+				"parameters": [
+					{
+						"name": "name",
+						"in": "formData",
+						"description": "The name of the pet",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "breed",
+						"in": "formData",
+						"description": "The breed of the pet",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "sex",
+						"in": "formData",
+						"description": "The sex of the pet",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"F",
+							"M"
+						]
+					},
+					{
+						"name": "image",
+						"in": "formData",
+						"description": "The image of the pet",
+						"required": false,
+						"type": "file"
+					},
+					{
+						"name": "type",
+						"in": "formData",
+						"description": "The type of the pet",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"cat"
+						]
+					},
+					{
+						"name": "dob",
+						"in": "formData",
+						"description": "The date of birth of the pet in ISO 8601 format",
+						"required": true,
+						"type": "string",
+						"format": "date-time"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+		},
+		"/pet/{id}": {
+			"put": {
+				"tags": [
+					"Pet"
+				],
+				"summary": "Update an existing pet",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the pet to update",
+						"required": true,
+						"type": "integer"
+					},
+					{
+						"name": "name",
+						"in": "formData",
+						"description": "The name of the pet",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "breed",
+						"in": "formData",
+						"description": "The breed of the pet",
+						"required": true,
+						"type": "string"
+					},
+					{
+						"name": "sex",
+						"in": "formData",
+						"description": "The sex of the pet",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"F",
+							"M"
+						]
+					},
+					{
+						"name": "image",
+						"in": "formData",
+						"description": "The image of the pet",
+						"required": true,
+						"type": "file"
+					},
+					{
+						"name": "type",
+						"in": "formData",
+						"description": "The type of the pet",
+						"required": true,
+						"type": "string",
+						"enum": [
+							"cat"
+						]
+					},
+					{
+						"name": "dob",
+						"in": "formData",
+						"description": "The date of birth of the pet in ISO 8601 format",
+						"required": true,
+						"type": "string",
+						"format": "date-time"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"delete": {
+				"tags": [
+					"Pet"
+				],
+				"summary": "Delete an existing pet",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the pet to update",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"get": {
+				"tags": [
+					"Pet"
+				],
+				"summary": "Get pets by id, name, breed, and sex",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the pet to update",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+		},
+		"/user": {
+			"get": {
+				"tags": [
+					"User"
+				],
+				"summary": "Get all users",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"User"
+				],
+				"summary": "Create a new user",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+              "properties":{
+                "name":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "isCharity":{
+                  "type":"boolean"
+                },
+                "signupCode":{
+                  "type":"string"
+                }
+              }
+						}
+          }
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+		},
+    "/user/verify":{
+      "get": {
+				"tags": [
+					"User"
+				],
+				"summary": "Verify user role/id",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+    },
+    "/user/login":{
+      "post": {
+				"tags": [
+					"User"
+				],
+				"summary": "User login",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+              "properties":{
+                "username":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                }
+              }
+						}
+          }
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				}
+			}
+    },
+    "/user/{id}":{
+      "delete": {
+				"tags": [
+					"User"
+				],
+				"summary": "Delete an existing user",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the user",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+    },
+    "/signup-code": {
+			"get": {
+				"tags": [
+					"SignupCode"
+				],
+				"summary": "Get all signup code",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"SignupCode"
+				],
+				"summary": "Create a new Signup code",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+		},
+		"/signup-code/{id}": {
+			"delete": {
+				"tags": [
+					"SignupCode"
+				],
+				"summary": "Delete an existing signup code",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the signup code",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+      }
+		},
+    "/watchlist": {
+			"get": {
+				"tags": [
+					"Watchlist"
+				],
+				"summary": "Get all watchlist",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"Watchlist"
+				],
+				"summary": "Create a new watchlist",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+              "properties":{
+                "userId":{
+                  "type":"integer"
+                },
+                "petId":{
+                  "type":"integer"
+                }
+              }
+						}
+          }
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+		},
+		"/watchlist/{id}": {
+			"delete": {
+				"tags": [
+					"Watchlist"
+				],
+				"summary": "Delete an existing watchlist",
+				"parameters": [
+					{
+						"name": "id",
+						"in": "path",
+						"description": "The ID of the watchlist code",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+      }
+		}
+	},
+  "securityDefinitions": {
+    "BearerAuth": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header",
+      "description": "JWT Authorization header using the Bearer scheme. Example: Bearer {JWT token}"
+    }
+  },
+  "definitions": {}
+}

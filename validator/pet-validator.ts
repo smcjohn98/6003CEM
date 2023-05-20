@@ -27,7 +27,16 @@ const petValidator = [
     .withMessage('Dob can not be empty!')
     .bail()
     .isISO8601()
-    .withMessage('Dob wrong format!')
+    .withMessage('Dob wrong format!'),
+  check('sex')
+    .trim()
+    .escape()
+    .not()
+    .isEmpty()
+    .withMessage('Sex can not be empty!')
+    .bail()
+    .isIn(['F', 'M'])
+    .withMessage('Invalid Sex!')
     
 ]
 

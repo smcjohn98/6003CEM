@@ -6,8 +6,24 @@ import Watchlist from '../model/watchlist';
 import AuthenticatedRequest from '../type/AuthenticatedRequest';
 
 export default class PetController {
+  async getPet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
+    const userId = request.user?.userId;
+
+    let pet = null;
+    console.log(userId);
+    if(userId){
+      pet = await Pet.findOne({ where: {id:request.params.id},
+        include: {model: Watchlist, required:false, where:{user_id:userId}}
+      });
+    }
+    else{
+      pet = await Pet.findByPk(request.params.id);
+    }
+    response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pet }));
+  }
   async getPets(request: AuthenticatedRequest, response: Response, next: NextFunction) {
-    let { type, name, ageFrom, ageTo, breed, sex, userId } = request.query;
+    let { type, name, ageFrom, ageTo, breed, sex } = request.query;
+    const userId = request.user?.userId;
     let limit : number = Number(request.query.limit)
     let offset : number = Number(request.query.offset)
     let fav : boolean = request.query.fav === 'true';

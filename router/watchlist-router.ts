@@ -1,7 +1,7 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import WatchlistController from '../controller/watchlist-controller';
-import { insertValidator } from '../validator/user-validator'
-import requestbodyValidator from '../validator/requestbody-validator'
+import verifyTokenMiddleware from '../validator/jwt-validator';
+import verifyPermissionMiddleware from '../validator/permission-validator';
 
 const watchlistControllers = new WatchlistController;
 
@@ -13,8 +13,8 @@ export default class WatchlistRouter {
   }
 
   initializeRoutes() {
-    this.router.get('/', watchlistControllers.getAll);
-    this.router.post('/', watchlistControllers.insert);
-    this.router.delete('/:id', watchlistControllers.delete);
+    this.router.get('/', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin"]), watchlistControllers.getAll);
+    this.router.post('/', verifyTokenMiddleware(true), watchlistControllers.insert);
+    this.router.delete('/:id', verifyTokenMiddleware(true), watchlistControllers.delete);
   }
 }

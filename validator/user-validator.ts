@@ -1,6 +1,6 @@
 import { check } from 'express-validator';
 
-const insertValidator = [
+const userValidator = [
     check('username')
         .trim()
         .escape()
@@ -21,4 +21,4 @@ const insertValidator = [
         .withMessage('Minimum 8 characters required!')
 ]
 
-export { insertValidator };
+export { userValidator };

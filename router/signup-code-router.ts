@@ -1,7 +1,8 @@
 import express, { Router, Request, Response, NextFunction } from 'express';
 import SignupCodeController from '../controller/signup-code-controller';
-import { insertValidator } from '../validator/user-validator'
 import requestbodyValidator from '../validator/requestbody-validator'
+import verifyTokenMiddleware from '../validator/jwt-validator';
+import verifyPermissionMiddleware from '../validator/permission-validator';
 
 const signupCodeControllers = new SignupCodeController;
 
@@ -13,8 +14,8 @@ export default class SignupCodeRouter {
   }
 
   initializeRoutes() {
-    this.router.get('/', signupCodeControllers.getAll);
-    this.router.post('/', signupCodeControllers.insert);
-    this.router.delete('/:id', signupCodeControllers.delete);
+    this.router.get('/', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin"]), signupCodeControllers.getAll);
+    this.router.post('/', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin"]) , signupCodeControllers.insert);
+    this.router.delete('/:id', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin"]), signupCodeControllers.delete);
   }
 }
