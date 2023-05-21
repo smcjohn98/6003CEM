@@ -15,7 +15,7 @@ export default class UserRouter {
   }
 
   initializeRoutes() {
-    this.router.get('/', userControllers.getAll);
+    this.router.get('/', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin"]), userControllers.getAll);
     this.router.get('/verify', verifyTokenMiddleware(true), userControllers.getUserData);
     this.router.post('/', userValidator, requestbodyValidator, userControllers.insert);
     this.router.put('/:id', verifyTokenMiddleware(true), userValidator, requestbodyValidator, userControllers.update);

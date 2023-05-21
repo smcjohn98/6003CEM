@@ -100,6 +100,6 @@ export default class UserController {
       return response.status(200).json(new ResponseMessage("OK", ErrorCode.noError, { jwt: jwt }));
     }
     else
-      return response.status(404).json(new ResponseMessage("Password Not Match", ErrorCode.passwordNotMatch, {}));
+      return response.status(403).json(new ResponseMessage("Password Not Match", ErrorCode.passwordNotMatch, {}));
   }
 }
