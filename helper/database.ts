@@ -2,6 +2,7 @@ import User from '../model/user';
 import Pet from '../model/pet';
 import Watchlist from '../model/watchlist';
 import SignupCode from '../model/signup-code';
+import Chat from '../model/chat';
 import Bcrypt from 'bcrypt'
 import UserRole from '../enum/user-role';
 import { config } from '../config';
@@ -21,6 +22,7 @@ const dataInit = async () => {
   await Pet.sync()
   await SignupCode.sync()
   await Watchlist.sync()
+  await Chat.sync()
 
   User.hasMany(Watchlist, {foreignKey: "user_id"})
   Watchlist.belongsTo(User, {foreignKey: "id"})

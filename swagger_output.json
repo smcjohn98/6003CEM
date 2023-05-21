@@ -32,6 +32,10 @@
 		{
 			"name": "Signup Code",
 			"description": "Signup Code CRUD operation"
+		},
+		{
+			"name": "Chat",
+			"description": "Chat Code CRUD operation"
 		}
 	],
 	"paths": {
@@ -297,25 +301,25 @@
 						"in": "body",
 						"schema": {
 							"type": "object",
-              "properties":{
-                "name":{
-                  "type":"string"
-                },
-                "username":{
-                  "type":"string"
-                },
-                "password":{
-                  "type":"string"
-                },
-                "isCharity":{
-                  "type":"boolean"
-                },
-                "signupCode":{
-                  "type":"string"
-                }
-              }
+							"properties": {
+								"name": {
+									"type": "string"
+								},
+								"username": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								},
+								"isCharity": {
+									"type": "boolean"
+								},
+								"signupCode": {
+									"type": "string"
+								}
+							}
 						}
-          }
+					}
 				],
 				"responses": {
 					"200": {
@@ -329,8 +333,8 @@
 				]
 			}
 		},
-    "/user/verify":{
-      "get": {
+		"/user/verify": {
+			"get": {
 				"tags": [
 					"User"
 				],
@@ -347,9 +351,9 @@
 					}
 				]
 			}
-    },
-    "/user/login":{
-      "post": {
+		},
+		"/user/login": {
+			"post": {
 				"tags": [
 					"User"
 				],
@@ -360,16 +364,16 @@
 						"in": "body",
 						"schema": {
 							"type": "object",
-              "properties":{
-                "username":{
-                  "type":"string"
-                },
-                "password":{
-                  "type":"string"
-                }
-              }
+							"properties": {
+								"username": {
+									"type": "string"
+								},
+								"password": {
+									"type": "string"
+								}
+							}
 						}
-          }
+					}
 				],
 				"responses": {
 					"200": {
@@ -377,9 +381,9 @@
 					}
 				}
 			}
-    },
-    "/user/{id}":{
-      "delete": {
+		},
+		"/user/{id}": {
+			"delete": {
 				"tags": [
 					"User"
 				],
@@ -404,11 +408,11 @@
 					}
 				]
 			}
-    },
-    "/signup-code": {
+		},
+		"/signup-code": {
 			"get": {
 				"tags": [
-					"SignupCode"
+					"Signup Code"
 				],
 				"summary": "Get all signup code",
 				"parameters": [],
@@ -425,7 +429,7 @@
 			},
 			"post": {
 				"tags": [
-					"SignupCode"
+					"Signup Code"
 				],
 				"summary": "Create a new Signup code",
 				"parameters": [],
@@ -444,7 +448,7 @@
 		"/signup-code/{id}": {
 			"delete": {
 				"tags": [
-					"SignupCode"
+					"Signup Code"
 				],
 				"summary": "Delete an existing signup code",
 				"parameters": [
@@ -466,9 +470,9 @@
 						"BearerAuth": []
 					}
 				]
-      }
+			}
 		},
-    "/watchlist": {
+		"/watchlist": {
 			"get": {
 				"tags": [
 					"Watchlist"
@@ -497,16 +501,16 @@
 						"in": "body",
 						"schema": {
 							"type": "object",
-              "properties":{
-                "userId":{
-                  "type":"integer"
-                },
-                "petId":{
-                  "type":"integer"
-                }
-              }
+							"properties": {
+								"userId": {
+									"type": "integer"
+								},
+								"petId": {
+									"type": "integer"
+								}
+							}
 						}
-          }
+					}
 				],
 				"responses": {
 					"200": {
@@ -545,16 +549,95 @@
 						"BearerAuth": []
 					}
 				]
-      }
+			}
+		},
+		"/chat/userlist": {
+			"get": {
+				"tags": [
+					"Chat"
+				],
+				"summary": "Get contacted user list",
+				"parameters": [],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
+		},
+		"/chat": {
+			"get": {
+				"tags": [
+					"Chat"
+				],
+				"summary": "Get chat history",
+				"parameters": [
+					{
+						"name": "chatUser",
+						"in": "query",
+						"description": "The chat user",
+						"required": true,
+						"type": "integer"
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			},
+			"post": {
+				"tags": [
+					"Chat"
+				],
+				"summary": "Send chat to user",
+				"parameters": [
+					{
+						"name": "body",
+						"in": "body",
+						"schema": {
+							"type": "object",
+							"properties": {
+								"userTo": {
+									"type": "integer"
+								},
+								"message": {
+									"type": "string"
+								}
+							}
+						}
+					}
+				],
+				"responses": {
+					"200": {
+						"description": "OK"
+					}
+				},
+				"security": [
+					{
+						"BearerAuth": []
+					}
+				]
+			}
 		}
 	},
-  "securityDefinitions": {
-    "BearerAuth": {
-      "type": "apiKey",
-      "name": "Authorization",
-      "in": "header",
-      "description": "JWT Authorization header using the Bearer scheme. Example: Bearer {JWT token}"
-    }
-  },
-  "definitions": {}
+	"securityDefinitions": {
+		"BearerAuth": {
+			"type": "apiKey",
+			"name": "Authorization",
+			"in": "header",
+			"description": "JWT Authorization header using the Bearer scheme. Example: Bearer {JWT token}"
+		}
+	},
+	"definitions": {}
 }

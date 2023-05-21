@@ -2,6 +2,7 @@ import express, { Express, Request, Response, NextFunction } from 'express';
 import UserRouter from './router/user-router';
 import PetRouter from './router/pet-router';
 import WatchlistRouter from './router/watchlist-router';
+import ChatRouter from './router/chat-router';
 import SignupCodeRouter from './router/signup-code-router';
 import ImageRouter from './router/image-router';
 import { dataInit } from './helper/database';
@@ -17,6 +18,7 @@ const petRouter = new PetRouter;
 const watchlistRouter = new WatchlistRouter;
 const signupCodeRouter = new SignupCodeRouter;
 const imageRouter = new ImageRouter;
+const chatRouter = new ChatRouter;
 
 dataInit();
 /*app.use((request: Request, response: Response, next: NextFunction) => {
@@ -37,34 +39,13 @@ app.use('/api/user', userRouter.router)
 app.use('/api/pet', petRouter.router)
 app.use('/api/watchlist', watchlistRouter.router)
 app.use('/api/signup-code', signupCodeRouter.router)
+app.use('/api/chat', chatRouter.router)
 app.use('/images', imageRouter.router)
 
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json') // 剛剛輸出的 JSON
 
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
-
-
-//app.use('/images', express.static('images'))
-/*app.get('/images/:imageName', (req, res) => {
-  // do a bunch of if statements to make sure the user is 
-  // authorized to view this image, then
-
-  const imageName = req.params.imageName
-  const readStream = fs.createReadStream(`images/${imageName}`)
-  readStream.pipe(res)
-})
-
-app.use((err: unknown, req: Request, res: Response, next: NextFunction) => {
-
-})
-app.post('/api/images', upload.single('image'), (req, res) => {
-  const file = req.file;
-  console.log(file);
-
-  res.json({ message: 'File uploaded successfully' });
-});
-*/
 
 const client = new Twitter({
   consumer_key: config.twitterApiKey,

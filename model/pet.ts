@@ -37,6 +37,10 @@ const Pet = sequelize.define('pet', {
   gallery:{
     type: DataTypes.STRING,
     allowNull: true
+  },
+  createdBy:{
+    type:DataTypes.INTEGER,
+    allowNull: true
   }
 }, {
   // Other model options go here

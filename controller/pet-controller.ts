@@ -68,13 +68,13 @@ export default class PetController {
     response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pets }));
   }
 
-  async insertPet(request: Request, response: Response, next: NextFunction) {
+  async insertPet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
     const { type, name, dob, breed, sex } = request.body;
 
     const file = request.file;
     console.log(file);
 
-    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed, thumbnail: file?.filename, sex: sex })
+    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed, thumbnail: file?.filename, sex: sex, createdBy: request.user?.userId })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }

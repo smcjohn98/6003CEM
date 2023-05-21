@@ -3,6 +3,7 @@ import { config } from '../config';
 import Pet from './pet';
 import User from './user';
 
+//const sequelize = new Sequelize(`${config.databaseConnectionString}`);
 const sequelize = new Sequelize('pet', 'root', '', {
   dialect: 'mysql',
   dialectOptions: {
