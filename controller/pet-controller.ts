@@ -58,14 +58,15 @@ export default class PetController {
     let pets = null;
     
     if(userId){
-      pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]], 
+      pets = await Pet.findAndCountAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]], 
       include: {model: Watchlist, required:fav, where:{user_id:userId}}
     });
     }
     else{
-      pets = await Pet.findAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]], });
+      pets = await Pet.findAndCountAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]], });
     }
-    response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pets }));
+    console.log(pets)
+    response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pets.rows, count: pets.count }));
   }
 
   async insertPet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
