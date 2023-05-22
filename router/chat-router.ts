@@ -18,6 +18,6 @@ export default class ChatRouter {
     this.router.get('/userlist', verifyTokenMiddleware(true), chatController.getUserList);
     this.router.get('/', verifyTokenMiddleware(true), chatController.getChat);
     this.router.post('/', verifyTokenMiddleware(true), chatController.sendChat);
-    this.router.delete('/:id', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin, charity"]), chatController.delete);
+    this.router.delete('/:id', verifyTokenMiddleware(true), verifyPermissionMiddleware(["admin", "charity"]), chatController.delete);
   }
 }
