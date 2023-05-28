@@ -9,3 +9,7 @@
 <h1>Run without live reload</h1>
 <p>npm start</p>
 <br/>
+
+<h1>Run Unit Test</h1>
+<p>npm test</p>
+<br/>
