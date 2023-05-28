@@ -25,10 +25,24 @@ const User = sequelize.define('user', {
     type: DataTypes.STRING,
     allowNull: false
   },
-  signup_code:{
+
+  //Charity Information
+  signupCode:{
     type: DataTypes.STRING,
     allowNull: true
-  }
+  },
+  location:{
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  phone:{
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+  charityName:{
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 }, {
   // Other model options go here
 });

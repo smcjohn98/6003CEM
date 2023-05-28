@@ -24,7 +24,8 @@
     "sqlite3": "^5.1.6",
     "swagger-ui-express": "^4.6.3",
     "ts-jest": "^29.1.0",
-    "twitter": "^1.7.1"
+    "twitter": "^1.7.1",
+    "twitter-api-v2": "^1.14.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.21.5",

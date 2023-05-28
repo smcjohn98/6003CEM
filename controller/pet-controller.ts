@@ -4,6 +4,8 @@ import ResponseMessage, { ErrorCode } from '../bean/response-message'
 import { Sequelize }from 'sequelize';
 import Watchlist from '../model/watchlist';
 import AuthenticatedRequest from '../type/AuthenticatedRequest';
+import User from '../model/user';
+import { postTweet } from '../helper/tweet';
 
 export default class PetController {
   async getPet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
@@ -13,11 +15,15 @@ export default class PetController {
     console.log(userId);
     if(userId){
       pet = await Pet.findOne({ where: {id:request.params.id},
-        include: {model: Watchlist, required:false, where:{user_id:userId}}
+        include: [{model: Watchlist, required:false, where:{userId:userId}},
+          {model: User, attributes:['id', 'name', 'username', 'charityName', 'phone', 'location'] }
+        ]
       });
     }
     else{
-      pet = await Pet.findByPk(request.params.id);
+      pet = await Pet.findOne({ where: {id:request.params.id},
+        include: [{model: User, attributes:['id', 'name', 'username', 'charityName', 'phone', 'location'] }]
+      });
     }
     response.send(new ResponseMessage("OK", ErrorCode.noError, { pet: pet }));
   }
@@ -27,6 +33,8 @@ export default class PetController {
     let limit : number = Number(request.query.limit)
     let offset : number = Number(request.query.offset)
     let fav : boolean = request.query.fav === 'true';
+    let own : boolean = request.query.own === 'true';
+
     if(!limit)
       limit = 12
     if(!offset)
@@ -55,11 +63,14 @@ export default class PetController {
       criteria.ageTo = ageToWhere;
     }
 
+    if(own && userId){
+      criteria.createdBy = userId;
+    }
     let pets = null;
     
     if(userId){
       pets = await Pet.findAndCountAll({ where: criteria, limit: limit, offset: offset, order: [["updatedAt", "desc"]], 
-      include: {model: Watchlist, required:fav, where:{user_id:userId}}
+      include: {model: Watchlist, required:fav, where:{userId:userId}}
     });
     }
     else{
@@ -70,18 +81,23 @@ export default class PetController {
   }
 
   async insertPet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
-    const { type, name, dob, breed, sex } = request.body;
-
+    const { type, name, dob, breed, sex, description } = request.body;
+    let postTwitter : boolean = request.body.postTwitter === 'true';
+    
     const file = request.file;
     console.log(file);
 
-    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed, thumbnail: file?.filename, sex: sex, createdBy: request.user?.userId })
+    const a = await Pet.create({ type: type, name: name, dob: dob, breed: breed, thumbnail: file?.filename, sex: sex, createdBy: request.user?.userId, description: description })
+    
+    if(postTwitter){
+      postTweet(file?.filename, name)
+    }
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 
   async updatePet(request: Request, response: Response, next: NextFunction) {
-    const { type, name, dob, breed, sex } = request.body;
+    const { type, name, dob, breed, sex, description } = request.body;
 
     const file = request.file;
     console.log(file);
@@ -98,6 +114,8 @@ export default class PetController {
     pet.setDataValue("dob", dob)
     pet.setDataValue("breed", breed)
     pet.setDataValue("sex", sex)
+    pet.setDataValue("description", description);
+
     if(file)
       pet.setDataValue('thumbnail', file?.filename)
 
@@ -105,7 +123,7 @@ export default class PetController {
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 
-  async deletePet(request: Request, response: Response, next: NextFunction) {
+  async deletePet(request: AuthenticatedRequest, response: Response, next: NextFunction) {
 
     // Check User Existed
     const pet = await Pet.findByPk(request.params.id);
@@ -113,6 +131,9 @@ export default class PetController {
       return response.status(404).json(new ResponseMessage("Pet Not Found", ErrorCode.resourceNotFound, {}));
     }
 
+    if(request.user?.userId && request.user?.role === "charity" && pet.getDataValue("createdBy") !== request.user?.userId){
+      return response.status(401).json(new ResponseMessage("Forbidden", ErrorCode.forBidden, {}));
+    }
     //Delete User
     pet.destroy();
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));

@@ -56,7 +56,7 @@ describe('Test User Verify Route', () => {
 describe('Register User', () => {
 
     it('Register user but have existed same username, should return status 404', async () => {
-        const response = await request(app).post('/user').send({username: "admin@gmail.com", password:"611235611256", name:"Admin User"})
+        const response = await request(app).post('/user').send({username: "admin@gmail.com", password:"611235611256", name:"Admin User", isCharity:false})
             .set('Content-Type', 'application/json')
 
         expect(response.status).toBe(404);
@@ -68,7 +68,7 @@ describe('Register User', () => {
         if(user)
             user.destroy();
 
-        const response = await request(app).post('/user').send({username: "unit.test@gmail.com", password:"12345678", name:"Jest Unit Test"})
+        const response = await request(app).post('/user').send({username: "unit.test@gmail.com", password:"12345678", name:"Jest Unit Test", isCharity:false})
             .set('Content-Type', 'application/json')
 
         expect(response.status).toBe(200);

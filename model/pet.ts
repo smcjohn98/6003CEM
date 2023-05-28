@@ -38,6 +38,10 @@ const Pet = sequelize.define('pet', {
     type: DataTypes.STRING,
     allowNull: true
   },
+  description:{
+    type: DataTypes.STRING,
+    allowNull: true
+  },
   createdBy:{
     type:DataTypes.INTEGER,
     allowNull: true

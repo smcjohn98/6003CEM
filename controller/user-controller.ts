@@ -25,7 +25,7 @@ export default class UserController {
   }
 
   async insert(request: Request, response: Response, next: NextFunction) {
-    const { username, password, name, isCharity, signupCode } = request.body;
+    const { username, password, name, isCharity, signupCode, location, phone, charityName } = request.body;
 
     // Check Username Existed
     const e = await User.findOne({ where: { username: username } });
@@ -39,12 +39,12 @@ export default class UserController {
       if(!signupCode)
         return response.status(404).json(new ResponseMessage("Sign Up Code Is Required", ErrorCode.resourceNotFound, {}));
 
-      const e = await SignupCode.findOne({ where: { code: signupCode, is_valid: true }, limit: 1 });
+      const e = await SignupCode.findOne({ where: { code: signupCode, isValid: true }, limit: 1 });
 
       if(!e)
         return response.status(404).json(new ResponseMessage("Sign Up Code Not Valid", ErrorCode.resourceNotFound, {}));
 
-      e.setDataValue("is_valid", false);
+      e.setDataValue("isValid", false);
       e.save();
       
       role = UserRole.Charity;
@@ -52,7 +52,8 @@ export default class UserController {
 
     const encryptPassword = Bcrypt.hashSync(password, 10);
     // Create User
-    const a = await User.create({ username: username, password: encryptPassword, name:name, role: role, signup_code: signupCode })
+    const a = await User.create({ username: username, password: encryptPassword, name:name, role: role, signupCode: signupCode,
+    location: location, phone: phone, charityName: charityName })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }

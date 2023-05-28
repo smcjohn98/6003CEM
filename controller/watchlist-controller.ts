@@ -14,13 +14,13 @@ export default class WatchlistController {
     const { userId, petId } = request.body;
 
     // Check Existed
-    const e = await Watchlist.findOne({ where: { user_id: userId, pet_id: petId } });
+    const e = await Watchlist.findOne({ where: { userId: userId, petId: petId } });
     if (e !== null) {
       return response.status(404).json(new ResponseMessage("Watchlist Item Is Existed", ErrorCode.resourceIsExisted, {}));
     }
  
     // Create User
-    const a = await Watchlist.create({ user_id: userId, pet_id: petId })
+    const a = await Watchlist.create({ userId: userId, petId: petId })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }

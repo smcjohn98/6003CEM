@@ -13,11 +13,11 @@ const sequelize = new Sequelize('pet', 'root', '', {
 //const sequelize = new Sequelize(`${config.databaseConnectionString}`);
 const Watchlist = sequelize.define('watchlist', {
   // Model attributes are defined here
-  user_id: {
+  userId: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  pet_id: {
+  petId: {
     type: DataTypes.INTEGER, 
     allowNull: false
   }

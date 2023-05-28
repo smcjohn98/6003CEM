@@ -12,7 +12,7 @@ export default class SignupCodeController {
 
   async insert(request: Request, response: Response, next: NextFunction) {
     const code = String.fromCharCode(getRandomInt(26)+65, getRandomInt(26)+65, getRandomInt(26)+65, getRandomInt(26)+65)
-    const a = await SignupCode.create({ code: code, is_valid: true })
+    const a = await SignupCode.create({ code: code, isValid: true })
 
     response.send(new ResponseMessage("OK", ErrorCode.noError, {code: code}));
   }

@@ -136,6 +136,13 @@
 						"required": true,
 						"type": "string",
 						"format": "date-time"
+					},
+					{
+						"name": "description",
+						"in": "formData",
+						"description": "The description of the pet",
+						"required": false,
+						"type": "string"
 					}
 				],
 				"responses": {
@@ -213,6 +220,13 @@
 						"required": true,
 						"type": "string",
 						"format": "date-time"
+					},
+					{
+						"name": "description",
+						"in": "formData",
+						"description": "The description of the pet",
+						"required": false,
+						"type": "string"
 					}
 				],
 				"responses": {
@@ -315,6 +329,15 @@
 									"type": "boolean"
 								},
 								"signupCode": {
+									"type": "string"
+								},
+								"phone": {
+									"type": "string"
+								},
+								"location": {
+									"type": "string"
+								},
+								"charityName": {
 									"type": "string"
 								}
 							}

@@ -10,11 +10,11 @@ const sequelize = new Sequelize('pet', 'root', '', {
 
 const Chat = sequelize.define('chat', {
   // Model attributes are defined here
-  user_from: {
+  userFrom: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
-  user_to: {
+  userTo: {
     type: DataTypes.INTEGER, 
     allowNull: false
   },

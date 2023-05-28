@@ -8,13 +8,13 @@ const sequelize = new Sequelize('pet', 'root', '', {
   }
 })
 
-const SignupCode = sequelize.define('signup_code', {
+const SignupCode = sequelize.define('signupCode', {
   // Model attributes are defined here
   code: {
     type: DataTypes.STRING,
     allowNull: false
   },
-  is_valid: {
+  isValid: {
     type: DataTypes.BOOLEAN,
     allowNull: false
   }

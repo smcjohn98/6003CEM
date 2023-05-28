@@ -14,7 +14,7 @@ export default class ChatController {
       return response.status(401).json(new ResponseMessage("Unauthorizated", ErrorCode.resourceNotFound, {}));
 
     const list = await sequelize.query(
-      "SELECT DISTINCT u.id as userId, u.name as userName FROM chats c, users u WHERE (c.user_from = ? or c.user_to = ?) and u.id <> ? and u.id in (c.user_from, c.user_to)",
+      "SELECT DISTINCT u.id as userId, u.name as userName FROM chats c, users u WHERE (c.userFrom = ? or c.userTo = ?) and u.id <> ? and u.id in (c.userFrom, c.userTo)",
       {
         replacements: [request.user.userId, request.user.userId, request.user.userId]
       }
@@ -31,7 +31,7 @@ export default class ChatController {
       return response.status(401).json(new ResponseMessage("Unauthorizated", ErrorCode.resourceNotFound, {}));
 
     const list = await sequelize.query(
-      "SELECT * FROM chats c WHERE (c.user_from = ? and c.user_to = ?) or (c.user_from = ? and c.user_to = ?) order by createdAt asc",
+      "SELECT * FROM chats c WHERE (c.userFrom = ? and c.userTo = ?) or (c.userFrom = ? and c.userTo = ?) order by createdAt asc",
       {
         replacements: [chatUser, request.user.userId, request.user.userId, chatUser]
       }
@@ -43,7 +43,7 @@ export default class ChatController {
   async sendChat(request: AuthenticatedRequest, response: Response, next: NextFunction) {
     const { userTo, message } = request.body;
   
-    if(userTo === request.user?.userId)
+    if(userTo == request.user?.userId)
       return response.status(404).json(new ResponseMessage("UserFrom and UserTo cannot be the same", ErrorCode.bodyBadRequest, {}));
     // Check Username Existed
     const e = await User.findOne({ where: { id: userTo } });
@@ -51,7 +51,7 @@ export default class ChatController {
       return response.status(404).json(new ResponseMessage("UserTo Not Existed", ErrorCode.resourceNotFound, {}));
     }
 
-    const msg = await Chat.create({user_from: request?.user?.userId, user_to: userTo, message: message})
+    const msg = await Chat.create({userFrom: request?.user?.userId, userTo: userTo, message: message})
     response.send(new ResponseMessage("OK", ErrorCode.noError, {}));
   }
 

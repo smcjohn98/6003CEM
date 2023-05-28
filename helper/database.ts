@@ -24,23 +24,26 @@ const dataInit = async () => {
   await Watchlist.sync()
   await Chat.sync()
 
-  User.hasMany(Watchlist, {foreignKey: "user_id"})
+  User.hasMany(Watchlist, {foreignKey: "userId"})
   Watchlist.belongsTo(User, {foreignKey: "id"})
 
-  Pet.hasMany(Watchlist, {foreignKey: "pet_id"})
+  User.hasMany(Pet, {foreignKey: "createdBy"})
+  Pet.belongsTo(User, {foreignKey: "createdBy"})
+
+  Pet.hasMany(Watchlist, {foreignKey: "petId"})
   Watchlist.belongsTo(User, {foreignKey: "id"})
 
   if (!await User.findOne({ where: { username: "admin@gmail.com" } })) {
     const adminPassword = Bcrypt.hashSync("P@ssw0rd", 10);
     User.create({ username: "admin@gmail.com", password: adminPassword, name: 'Admin User', role: UserRole.Admin })
   }
-  if (!await Pet.findOne({ where: { name: "Peanut" } })) {
-    Pet.create({ type: "cat", name: "Peanut", sex: 'F', dob: "2021-12-15", breed: "DSH" })
-  } 
+  /*if (!await Pet.findOne({ where: { name: "Peanut" } })) {
+    Pet.create({ type: "cat", name: "Peanut", sex: 'F', dob: "2021-12-15", breed: "abys" })
+  } */
 
-  if (!await Watchlist.findOne({ where: { user_id:1, pet_id:1 } })) {
-    Watchlist.create({user_id:1, pet_id:1})
-  } 
+  /*if (!await Watchlist.findOne({ where: { userId:1, petId:1 } })) {
+    Watchlist.create({userId:1, petId:1})
+  } */
 
   /*const e = await User.findOne({where:{id:1}, include:{model:Watchlist} });
   console.log(e?.getDataValue("watchlists"));*/
